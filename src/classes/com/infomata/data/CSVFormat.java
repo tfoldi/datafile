@@ -1,5 +1,5 @@
 /*
- * $Id: CSVFormat.java,v 1.1 2004/04/24 04:19:36 oldman1004 Exp $
+ * $Id: CSVFormat.java,v 1.2 2004/05/03 05:03:28 oldman1004 Exp $
  *
  * Copyright(c) 2002 Infomata
  * 
@@ -25,7 +25,7 @@ import java.util.Iterator;
  * Implementation DataFormat interface for CSV formated files.
  *
  * @author <a href="mailto:skim@infomata.com">skim</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class CSVFormat implements DataFormat {
 
@@ -179,8 +179,6 @@ public class CSVFormat implements DataFormat {
         else {
             o.append(cs, offset, len);
         }
-
-        System.out.println("result: '" + o.toString() + "'");
 
         return o.toString();
 
