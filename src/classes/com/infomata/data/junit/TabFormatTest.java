@@ -1,6 +1,6 @@
 /*
 * Copyright (c) 2000 - 2004 Infomata.  All rights reserved.
-* $Id: TabFormatTest.java,v 1.1 2004/04/24 04:19:36 oldman1004 Exp $
+* $Id: TabFormatTest.java,v 1.2 2004/05/11 22:27:36 oldman1004 Exp $
 */
 package com.infomata.data.junit;
 
@@ -10,8 +10,6 @@ import com.infomata.data.DataFormat;
 import com.infomata.data.DataRow;
 import com.infomata.data.TabFormat;
 
-import junit.framework.TestCase;
-
 /**
  * TabFormatTest.java
  *
@@ -19,7 +17,7 @@ import junit.framework.TestCase;
  * Created: Thu Apr 22 11:57:27 2004
  *
  * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TabFormatTest extends DataFormatUT {
 

@@ -1,5 +1,5 @@
 /*
- * $Id: DataFile.java,v 1.1 2004/04/24 04:19:36 oldman1004 Exp $
+ * $Id: DataFile.java,v 1.2 2004/05/11 22:27:29 oldman1004 Exp $
  * 
  * Copyright(c) 2002 Infomata
  * 
@@ -34,7 +34,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Vector;
 
 /**
@@ -93,7 +92,7 @@ import java.util.Vector;
  * </pre>
  *
  * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DataFile {
 

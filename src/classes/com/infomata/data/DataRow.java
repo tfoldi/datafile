@@ -1,5 +1,5 @@
 /*
- * $Id: DataRow.java,v 1.1 2004/04/24 04:19:36 oldman1004 Exp $
+ * $Id: DataRow.java,v 1.2 2004/05/11 22:27:29 oldman1004 Exp $
  *
  * Copyright(c) 2002 Infomata
  * 
@@ -25,7 +25,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -34,7 +33,7 @@ import java.util.Hashtable;
  * line of the data file
  *
  * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DataRow {
 
@@ -66,6 +65,7 @@ public class DataRow {
     public DataRow() {
         items = new ArrayList();
         nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(50);
     }
 
     /**
@@ -599,5 +599,12 @@ public class DataRow {
         }
         return o.toString();
     }
+
+	/**
+	 * Remove the content of DataRow.
+	 */
+	public void clear() {
+		items.clear();
+	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: CsvFormatTest.java,v 1.2 2004/05/04 23:19:03 oldman1004 Exp $
+ * $Id: CsvFormatTest.java,v 1.3 2004/05/11 22:27:31 oldman1004 Exp $
  * Copyright(c) 2002 Infomata
  * 
  * This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ import com.infomata.data.*;
  * Test for CSVFormat
  *
  * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class CsvFormatTest extends DataFormatUT {
 
@@ -85,8 +85,10 @@ public class CsvFormatTest extends DataFormatUT {
         row.add(" this is a test");
         row.add(" This is a \"test\"");
         String res = fmt.format(row);
-        System.out.println("expected: '\" this is a test\",\" This is a \"\"test\"\"\"");
-        System.out.println("  result: '" + res + "'");
+        /*
+        outln("expected: '\" this is a test\",\" This is a \"\"test\"\"\"");
+        outln("  result: '" + res + "'");
+        */
         assertEquals("\" this is a test\",\" This is a \"\"test\"\"\"", res);
     }
 
