@@ -1,0 +1,134 @@
+<project name="infomata" default="compile" basedir="." >
+
+  <description>
+    Data file read/write library for Java.
+  </description>
+  
+  <!-- The build.properties file defines the parth to local jar files -->
+  <property file="build.properties"/>
+  <property file="${user.home}/.build.properties" />
+  <property environment="env"/>
+
+  <property name="src.home" value="${basedir}/src"/>
+  <property name="build.home" value="${basedir}/build" />
+  <property name="dist.home" value="${basedir}/dist" />
+  <property name="docs.home" value="${basedir}/docs" />
+  <property name="datafile.version" value="1.3.2" />
+  <property name="datafile.debug" value="off"/>
+  <property name="datafile.optimize" value="on"/>
+
+  <!-- Construct compile classpath -->
+  <path id="classpath">
+    <pathelement location="${build.home}" />
+    <fileset dir="${basedir}/lib">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="prepare">
+    <mkdir dir="${build.home}"/>
+  </target>
+
+  <target name="clean"
+          description="delete old build and dist directories">
+    <delete dir="${dist.home}"/>
+    <delete dir="${build.home}"/>
+    <delete dir="${docs.home}/apidoc"/>
+    <delete>
+      <fileset dir="${src.home}/classes" includes="**/*.class" />
+    </delete>
+  </target>
+
+  <target name="init">
+    <tstamp />
+  </target>
+
+  <target name="dist"
+          depends="junit, jar, doc"
+          description="create a distribution package for DataFile">
+    <mkdir dir="${dist.home}"/>
+    <mkdir dir="${dist.home}/datafile" />
+    <move file="${build.home}/datafile.jar" 
+          todir="${dist.home}/datafile/" />
+    <move todir="${dist.home}/datafile/apidoc">
+      <fileset dir="${docs.home}/apidoc" />
+    </move>
+    <zip destfile="${dist.home}/datafile-${datafile.version}.zip"
+         basedir="${dist.home}"
+         includes="datafile/" />
+    <delete dir="${dist.home}/datafile"/>
+  </target>
+
+  <target name="compile"
+          depends="init, clean, prepare"
+          description="compile DataFile">
+    <javac srcdir="${src.home}/classes"
+           destdir="${build.home}"
+  	   deprecation="${deprecation}"
+           optimize="${datafile.optimize}"
+	   debug="${datafile.debug}">
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <target name="jar"
+          depends="compile"
+          description="create jar file of DataFile library.">
+    <jar jarfile="${build.home}/datafile.jar"
+         basedir="${build.home}"
+         manifest="${src.home}/misc/manifest.mf"
+         includes="**/*.class"
+         excludes="**/junit/*.class" />
+  </target>
+
+  <target name="doc" depends="init,compile"
+          description="generate DataFile API doc">
+    <mkdir dir="${docs.home}/apidoc" />
+    <javadoc destdir="${docs.home}/apidoc"
+             version="true"
+             protected="true"
+             author="true"
+             use="true"
+             stylesheetfile="${src.home}/misc/stylesheet.css"
+             doctitle="Infomata data file API doc"
+             windowtitle="DataFile ${datafile.version}">
+      <classpath refid="classpath"/>
+      <fileset dir="${src.home}/classes">
+        <exclude name="**/junit/*.java"/>
+        <include name="com/infomata/data/**.java"/>
+      </fileset>
+      <header>
+        <![CDATA[<b><a href="http://www.infomata.com" target="_top"
+        title="Data File Read/Write Utility">DataFile ${datafile.version}</a></b>]]>
+      </header>
+      <bottom>
+        <![CDATA[<i>Copyright &#169; 2004 <a href="http://www.infomata.com" target="_top">Infomata</a>. All Rights Reserved.</i>]]>
+      </bottom>
+    </javadoc>
+  </target>
+
+  <!-- JUnit Test -->
+  <target name="junit" depends="compile">
+    <mkdir dir="${build.home}/report"/>
+    <junit printsummary="on"
+           fork="false"
+           haltonfailure="false">
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+      <formatter type="xml"/>
+      <batchtest todir="${build.home}/report">
+        <fileset dir="${src.home}/classes">
+          <include name="**/junit/*Test.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+    <junitreport todir="${build.home}/report">
+      <fileset dir="${build.home}/report">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${build.home}/report"/>
+    </junitreport>
+  </target>
+
+</project>

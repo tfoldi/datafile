@@ -1,0 +1,91 @@
+/* Infomata Java tools API style sheet */
+
+body {
+  font-size: 11px;
+  max-width: 500pt;
+  font-family: Verdana, Arial, sans-serif;
+}
+
+td {
+  font-size: 11px;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 4px 4px 0px 4px;
+}
+
+a:link {
+  color: #336600;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+a:hover {
+  font-size: 11px;
+  text-decoration: underline;
+  color: #333399;
+}
+
+a:visited {
+  color: #339900;
+  text-decoration: none;
+  font-size: 11px;
+}
+
+
+/* Table colors */
+.TableHeadingColor {
+  color: #ffffff;
+  background: #556b2f;
+}
+
+.TableSubHeadingColor {
+   background: #99cc00;
+}
+
+.TableRowColor {
+  background: #f3f3f3;
+}
+
+/* Font used in left-hand frame lists */
+.FrameTitleFont {
+  font-size: 11px;
+}
+
+.FrameHeadingFont {
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.FrameItemFont {
+  font-size: 11px;
+}
+
+
+/* Navigation bar fonts and colors */
+.NavBarCell1    {
+  background-color: #eeeeee;
+}
+
+.NavBarCell1Rev { 
+  background-color: #666633;
+}
+
+.NavBarFont1 {
+  font-size: 11px;
+}
+
+.NavBarFont1Rev {
+  color: #ffffff;
+  font-size: 12pt;
+}
+
+.NavBarCell2 {
+  background-color: #cccccc;
+}
+
+.NavBarCell3    {
+  background-color: #eeeeee;
+}
+
