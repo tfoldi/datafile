@@ -1,5 +1,5 @@
 /*
- * $Id: CsvFormatTest.java,v 1.1 2004/04/24 04:19:36 oldman1004 Exp $
+ * $Id: CsvFormatTest.java,v 1.2 2004/05/04 23:19:03 oldman1004 Exp $
  * Copyright(c) 2002 Infomata
  * 
  * This library is free software; you can redistribute it and/or
@@ -25,12 +25,21 @@ import com.infomata.data.*;
  * Test for CSVFormat
  *
  * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class CsvFormatTest extends DataFormatUT {
 
     protected void setUp() {
         fmt = new CSVFormat();
+    }
+
+    public void testAddNullOrEmpty() {
+        DataRow row = new DataRow();
+        row.add(12.5d);
+        row.add(null);
+        row.add("");
+        String val = fmt.format(row);
+        assertEquals("12.5,null,", val);
     }
 
     public void testTextWithNewLine() {
