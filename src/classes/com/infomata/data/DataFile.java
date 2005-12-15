@@ -1,5 +1,5 @@
 /*
- * $Id: DataFile.java,v 1.2 2004/05/11 22:27:29 oldman1004 Exp $
+ * $Id: DataFile.java,v 1.3 2005/12/15 17:30:54 oldman1004 Exp $
  * 
  * Copyright(c) 2002 Infomata
  * 
@@ -22,104 +22,122 @@ package com.infomata.data;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 /**
  * <p>
- * Main class for generating or reading data files written in widely
- * accepted data format. Currently supported
- * data formats are tab separate ({@link com.infomata.data.TabFormat}) and
- * CSV ({@link com.infomata.data.CSVFormat}), but more data formats can
+ * Main class for generating or reading data files written in widely accepted
+ * data format. Currently supported data formats are tab separate ({@link com.infomata.data.TabFormat})
+ * and CSV ({@link com.infomata.data.CSVFormat}), but more data formats can
  * easily be added by implementing {@link com.infomata.data.DataFormat}
  * </p>
  * <p>
  * <b>USAGE:</b>
+ * 
  * <pre class="example">
  * // Creating a reader for CSV file using ISO-8859-1
- *
- * DataFile read = DataFile.createReader("8859_1");
+ * 
+ * DataFile read = DataFile.createReader(&quot;8859_1&quot;);
  * read.setDataFormat(new CSVFormat());
- *
- * try {
- *
- *     read.open(new File("/data/test.csv"));
- *
- *     for (DataRow row = read.next(); row != null; row = read.next()) {
+ * 
+ * try
+ * {
+ * 
+ *     read.open(new File(&quot;/data/test.csv&quot;));
+ * 
+ *     for (DataRow row = read.next(); row != null; row = read.next())
+ *     {
  *         String text = row.getString(0);
  *         int number1 = row.getInt(1, 0);
  *         double number2 = row.getDouble(2);
  *         // use the retrieved data ...
  *     }
  * }
- *
- * finally {
- *  read.close();
+ * 
+ * finally
+ * {
+ *     read.close();
  * }
- *
+ * 
  * // Creating a writer for data file with European encoding
  * // ISO-8859-2 (European) using tab separated format.
  * // (rewrite existing file)
- *
- * DataFile write = DataFile.createWriter("8859_2", false);
+ * 
+ * DataFile write = DataFile.createWriter(&quot;8859_2&quot;, false);
  * write.setDataFormat(new TabFormat());
- *
- * try {
- *
- *     write.open(new File("/data/test.txt"));
- *
- *     for (DataRow row = write.next(); row != null; row = write.next()) {
- *         row.add("some German text");
+ * 
+ * try
+ * {
+ * 
+ *     write.open(new File(&quot;/data/test.txt&quot;));
+ * 
+ *     for (DataRow row = write.next(); row != null; row = write.next())
+ *     {
+ *         row.add(&quot;some German text&quot;);
  *         row.add(123);
  *         row.add(13323.23d);
  *     }
  * }
- *
- * finally {
+ * 
+ * finally
+ * {
  *     write.close();
  * }
  * </pre>
- *
+ * 
  * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public class DataFile {
+public class DataFile
+{
 
     private final static int READER = 0x21;
+
     private final static int WRITER = 0x12;
-    
+
     private int type = READER;
-    private File file = null;
+
+    // private File file = null;
     private String enc = null;
+
     private DataRow row = null;
-    private Vector rows = null;
-    private boolean first = true;
+
     private NumberFormat nf = null;
+
     private Hashtable headerIndex = null;
-  
+    private ArrayList headerList = null;
+
     private BufferedReader in = null;
+
     private PrintWriter out = null;
+
     private DataFormat format = new CSVFormat();
+
     private boolean append = false;
 
     /**
      * Creates a new <code>DataFile</code> instance.
-     *
-     * @param enc a <code>String</code> value
-     * @param type an <code>int</code> value
+     * 
+     * @param enc
+     *            a <code>String</code> value
+     * @param type
+     *            an <code>int</code> value
      */
-    private DataFile(String enc, int type) {
+    private DataFile(String enc, int type)
+    {
         nf = NumberFormat.getInstance();
         this.enc = enc;
         this.type = type;
@@ -127,163 +145,194 @@ public class DataFile {
 
     /**
      * Creates a reader instance of a data file.
-     *
-     * @param enc    Java character encoding in which the data
-     *               file is written.
+     * 
+     * @param enc
+     *            Java character encoding in which the data file is written.
      * @return a reader instance of the DataFile.
      */
-    public static final DataFile createReader(String enc) {
+    public static final DataFile createReader(String enc)
+    {
         DataFile data = new DataFile(enc, READER);
         return data;
     }
 
-
     /**
-     * Creates a writer instance of DataFile used for writing
-     * a data file.
-     *
-     * @param enc    Java encoding to use while writing
-     *               the data file containing none-English characters.
-     * @param append True if appending to existing data file.  False, if
-     *               writing to a new file or overwriting current file.
+     * Creates a writer instance of DataFile used for writing a data file.
+     * 
+     * @param enc
+     *            Java encoding to use while writing the data file containing
+     *            none-English characters.
+     * @param append
+     *            True if appending to existing data file. False, if writing to
+     *            a new file or overwriting current file.
      * @return a writer instance of DataFile.
      */
-    public static final DataFile createWriter(String enc, boolean append) {
+    public static final DataFile createWriter(String enc, boolean append)
+    {
         DataFile data = new DataFile(enc, WRITER);
         data.append = append;
         return data;
     }
 
-
     /**
-     * Sets the indicator for header row (must be first line
-     * of data file).
-     * @param header True if the file contains a header row.  False, otherwise.
-     */    
-    public final void containsHeader(boolean header) {
-        headerIndex = (header) ? new Hashtable() : null;
+     * Sets the indicator for header row (must be first line of data file).
+     * 
+     * @param header
+     *            True if the file contains a header row. False, otherwise.
+     */
+    public final void containsHeader(boolean header)
+    {
+        headerList = (header) ? new ArrayList() : null;
     }
 
     /**
      * Checks if header indicator has been turned on using
-     * {@link #containsHeader(boolean)}.  Data file reader
-     * lacks the logic to determine if the first row is a
-     * header row, automatically, so the existance of header
-     * row must be indicated prior to reading the data file.
-     * @return True, if header file indicator has been
-     * set to <code>true</code>.  False, otherwise.
-     */    
-    public final boolean containsHeader() {
-        return headerIndex != null;
+     * {@link #containsHeader(boolean)}. Data file reader lacks the logic to
+     * determine if the first row is a header row, automatically, so the
+     * existance of header row must be indicated prior to reading the data file.
+     * 
+     * @return True, if header file indicator has been set to <code>true</code>.
+     *         False, otherwise.
+     */
+    public final boolean containsHeader()
+    {
+        return headerList != null;
     }
 
     /**
      * Sets the data format to be read or written.
-     *
-     * @param format an instance of a class that
-     *               implements DataFormat interface.
+     * 
+     * @param format
+     *            an instance of a class that implements DataFormat interface.
      * @see com.infomata.data.DataFormat
      */
-    public final void setDataFormat(DataFormat format) {
+    public final void setDataFormat(DataFormat format)
+    {
         this.format = format;
     }
 
-
     /**
-     * Finalization method that closes the file descriptor.  This would
-     * work only if JVM is current (1.3 or later?).
+     * Finalization method that closes the file descriptor. This would work only
+     * if JVM is current (1.3 or later?).
      */
-    public void finalize() {
+    public void finalize()
+    {
         close();
     } // finalize()
-
 
     /**
      * Closes a data file.
      */
-    public final void close() {
-
-        try {
-
-            switch (type) {
-        
+    public final void close()
+    {
+        try
+        {
+            switch (type)
+            {
             case READER:
-                if (in != null) {
+                if (in != null)
+                {
                     in.close();
                 }
-                if (headerIndex != null) {
-                     headerIndex.clear();
+                if (containsHeader())
+                {
+                    headerList.clear();
+                    headerIndex.clear();
+                    headerIndex = null;
                 }
                 break;
-        
+
             case WRITER:
-                if (out != null) {
-                    if (row != null && row.size() > 0) {
+                if (out != null)
+                {
+                    if (row != null && row.size() > 0)
+                    {
                         out.println(format.format(row));
+                        row = null;
                     }
                     out.close();
                 }
                 break;
-        
             }
         }
 
-        catch (IOException e) {
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
 
     } // close()
 
-
     /**
      * Opens a data file for reading or writing
-     *
-     * @param file data file
-     * @exception IOException if an error occurs
+     * 
+     * @param file
+     *            data file
+     * @exception IOException
+     *                if an error occurs
      */
-    public final void open(File file) throws IOException {
-    
-        if (!file.exists()) {
-            if (type == READER) {
-                throw new IOException("No such file: "
-                                      + file.getAbsolutePath());
+    public final void open(File file) throws IOException
+    {
+        if (!file.exists())
+        {
+            if (type == READER)
+            {
+                throw new IOException("No such file: " + file.getAbsolutePath());
             }
-            else if (type == WRITER) {
-                if (!file.createNewFile()) {
+            else if (type == WRITER)
+            {
+                if (!file.createNewFile())
+                {
                     throw new IOException("Can't create file: "
-                                          + file.getAbsolutePath());
+                            + file.getAbsolutePath());
                 }
             }
         }
-        
-        if (in != null || out != null) {
+
+        if (in != null || out != null)
+        {
             close();
         }
-    
-        switch (type) {
+        
+        open(file.toURL());
+    }
+    public final void open(URL file) throws IOException
+    {
+
+        switch (type)
+        {
 
         case READER:
-            if (enc != null && enc.length() > 0) {
-                FileInputStream fis = new FileInputStream(file);
-                InputStreamReader isr = new InputStreamReader(fis, enc);
-                in = new BufferedReader(isr);
+            InputStream is = file.openStream();
+            InputStreamReader isr = 
+                (enc != null && enc.length() > 0) 
+                ? new InputStreamReader(is, enc) 
+                : new InputStreamReader(is);
+                
+            in = new BufferedReader(isr);
+            
+            if (containsHeader())
+            {
+                DataRow row = next();
+                headerIndex = new Hashtable(row.size());
+                for (int i = 0; i < row.size(); i++)
+                {
+                    headerList.add(row.getString(i));
+                    headerIndex.put(row.getString(i), new Integer(i));
+                }
             }
-            else {
-                FileReader fr = new FileReader(file);
-                in = new BufferedReader(fr);
-            }
-            first = true;
             break;
 
         case WRITER:
-            if (enc != null) {
-                FileOutputStream fos =
-                    new FileOutputStream(file.getAbsolutePath(), append);
+            if (enc != null)
+            {
+                FileOutputStream fos = new FileOutputStream(file.getFile(), append);
                 OutputStreamWriter ow = new OutputStreamWriter(fos, enc);
                 out = new PrintWriter(ow);
             }
-            else {
-                FileWriter fw = new FileWriter(file.getAbsolutePath(), append);
+            else
+            {
+                FileWriter fw = new FileWriter(file.getFile(), append);
                 out = new PrintWriter(new BufferedWriter(fw));
             }
             break;
@@ -292,30 +341,33 @@ public class DataFile {
             break;
 
         }
-               
+
     } // open()
 
-
     /**
-     * Retrieves the next row for reading or
-     * writing data
-     *
+     * Retrieves the next row for reading or writing data
+     * 
      * @return a reference to next data row.
-     * @exception IOException if an error occurs
+     * @exception IOException
+     *                if an error occurs
      */
-    public final DataRow next() throws IOException {
+    public final DataRow next() throws IOException
+    {
 
-        switch (type) {
-               
+        switch (type)
+        {
+
         case READER:
 
             String line = in.readLine();
 
-            if (line != null) {
+            if (line != null)
+            {
 
                 row = format.parseLine(line);
 
-                if (row == null) {
+                if (row == null)
+                {
                     // cases where cell contains new line char without
                     // proper termination by delimiter (i.e. CSV with new line
                     // in data cell)
@@ -325,56 +377,69 @@ public class DataFile {
                     row = next();
                 }
 
-                if (headerIndex != null) {
-                    if (first) {
-                        first = false;
-                        for (int i = 0; i < row.size(); i++) {
-                            headerIndex.put(row.getString(i), new Integer(i));
-                        }
-                        row = next();
-                    }
+                if (containsHeader())
+                {
                     row.setHeaderIndex(headerIndex);
                 }
             }
-            else {
+            else
+            {
                 row = null;
             }
             break;
 
         case WRITER:
-            if (row != null) {
-                if (row.size() == 0) {
+            if (row == null)
+            {
+                row = new DataRow(nf);
+            }
+            else
+            {
+                if (row.size() == 0)
+                {
                     out.println("");
                 }
-                else {
+                else
+                {
                     out.println(format.format(row));
                 }
+                row.clear();
             }
-            row = new DataRow(nf);
             break;
 
         }
 
         return row;
-          
+
     } // next()
+
+    /**
+     * Retrieves the list of header names found in the first row of the data
+     * file. In order for this to work, the header row indicator must be set
+     * prior to opening the data file. <b>Note: the header names are not
+     * guaranteed to be the order they appear in the first row of the data file</b>.
+     * 
+     * @return header names (not guaranteed in the order in which they appear in
+     *         file).
+     * @deprecated use {@link #getHeaderList()} instead.
+     */
+    public final Iterator getHeaderNames()
+    {
+        ArrayList tmp = (headerIndex == null) ? new ArrayList()
+                : new ArrayList(headerIndex.keySet());
+        return tmp.iterator();
+    }
     
     /**
-     * Retrieves the list of header names found in the first
-     * row of the data file.  In order for this to work,
-     * the header row indicator must be set prior to opening
-     * the data file.  <b>Note: the header names are not guaranteed
-     * to be the order they appear in the first row of the
-     * data file</b>.
-     * @return header names (not guaranteed in the order in which
-     * they appear in file).
-     */    
-    public final Iterator getHeaderNames() {
-         ArrayList tmp = (headerIndex == null)
-                         ? new ArrayList()
-                         : new ArrayList(headerIndex.keySet());
-         return tmp.iterator();
+     * Retrieves the list of header names found in the first row of the data
+     * file in the sequence they appear.  In order for this to work, the 
+     * header row indicator must be set prior to opening the data file.
+     * 
+     * @return header names (in sequence);
+     */
+    public final List getHeaderList()
+    {
+        return Collections.unmodifiableList(headerList);
     }
-
 
 }

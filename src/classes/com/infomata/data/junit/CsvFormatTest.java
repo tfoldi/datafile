@@ -1,5 +1,5 @@
 /*
- * $Id: CsvFormatTest.java,v 1.3 2004/05/11 22:27:31 oldman1004 Exp $
+ * $Id: CsvFormatTest.java,v 1.4 2005/12/15 17:30:54 oldman1004 Exp $
  * Copyright(c) 2002 Infomata
  * 
  * This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ import com.infomata.data.*;
  * Test for CSVFormat
  *
  * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class CsvFormatTest extends DataFormatUT {
 
@@ -90,6 +90,32 @@ public class CsvFormatTest extends DataFormatUT {
         outln("  result: '" + res + "'");
         */
         assertEquals("\" this is a test\",\" This is a \"\"test\"\"\"", res);
+    }
+    
+    public void testLastEmptyElement()
+    {
+        CSVFormat fmt = new CSVFormat();
+        DataRow row = new DataRow();
+        row.add("item 1");
+        row.add(2);
+        row.add(3.123);
+        row.addEmpty();
+        String csvfmt = fmt.format(row);
+        row = fmt.parseLine(csvfmt);
+        assertEquals(4, row.size());
+    }
+    
+    public void testFirstEmptyElement()
+    {
+        CSVFormat fmt = new CSVFormat();
+        DataRow row = new DataRow();
+        row.addEmpty();
+        row.add("item 2");
+        row.add(3);
+        row.add("four?");
+        String str = fmt.format(row);
+        row = fmt.parseLine(str);
+        assertEquals(4, row.size());
     }
 
     /*

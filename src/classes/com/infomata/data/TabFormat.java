@@ -1,5 +1,5 @@
 /*
- * $Id: TabFormat.java,v 1.1 2004/04/24 04:19:36 oldman1004 Exp $
+ * $Id: TabFormat.java,v 1.2 2005/12/15 17:30:54 oldman1004 Exp $
  *
  * Copyright(c) 2002 Infomata
  * 
@@ -26,7 +26,7 @@ import java.util.Iterator;
  * data file.
  *
  * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TabFormat implements DataFormat {
 
@@ -49,8 +49,6 @@ public class TabFormat implements DataFormat {
 
             int last = 0;
             int idx = line.indexOf(TAB, last);
-
-            int cnt = 0;
       
             while (idx >= 0) {
                 row.add(line.substring(last, idx));
