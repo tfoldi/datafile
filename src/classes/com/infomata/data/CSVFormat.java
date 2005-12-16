@@ -1,5 +1,5 @@
 /*
- * $Id: CSVFormat.java,v 1.3 2004/05/04 23:19:02 oldman1004 Exp $
+ * $Id: CSVFormat.java,v 1.4 2005/12/16 11:31:30 oldman1004 Exp $
  *
  * Copyright(c) 2002 Infomata
  * 
@@ -25,7 +25,7 @@ import java.util.Iterator;
  * Implementation DataFormat interface for CSV formated files.
  *
  * @author <a href="mailto:skim@infomata.com">skim</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class CSVFormat implements DataFormat {
 
@@ -38,10 +38,14 @@ public class CSVFormat implements DataFormat {
     public String format(DataRow row) {
         
         StringBuffer o = new StringBuffer();
-        
+        boolean first = true;
         Iterator items = row.iterator();
         while (items.hasNext()) {
-            if (o.length() > 0) {
+            if (first) {
+                first = false;
+            }
+            else
+            {
                 o.append(",");
             }
             String cell = (String)items.next();
@@ -88,6 +92,10 @@ public class CSVFormat implements DataFormat {
             if (paired) {
                 if (offset < cs.length) {
                     row.add(decode(cs, offset, cs.length - offset));
+                }
+                else if (cs[offset - 1] == COMMA)
+                {
+                    row.addEmpty();
                 }
                 res = row;
                 row = null;
