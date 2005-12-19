@@ -1,5 +1,5 @@
 /*
- * $Id: DataRow.java,v 1.2 2004/05/11 22:27:29 oldman1004 Exp $
+ * $Id: DataRow.java,v 1.3 2005/12/19 11:31:09 oldman1004 Exp $
  *
  * Copyright(c) 2002 Infomata
  * 
@@ -23,17 +23,19 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Object representing collection of data items contained within one
  * line of the data file
  *
  * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DataRow {
 
@@ -598,6 +600,16 @@ public class DataRow {
             o.append("|'").append((String)i.next()).append("'");
         }
         return o.toString();
+    }
+    
+    /**
+     * Retrieves an immutable list of values contained within
+     * the instance of DataRow.
+     * @return immutable list of values in DataRow.
+     */
+    public List getValues()
+    {
+        return Collections.unmodifiableList(items);
     }
 
 	/**

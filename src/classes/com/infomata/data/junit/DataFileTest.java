@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 
 import com.infomata.data.CSVFormat;
 import com.infomata.data.DataFile;
+import com.infomata.data.DataFileFactory;
 import com.infomata.data.DataRow;
 
 public class DataFileTest extends TestCase
@@ -23,7 +24,7 @@ public class DataFileTest extends TestCase
 
         try
         {
-            df = DataFile.createWriter("8859_1", false);
+            df = DataFileFactory.createWriter("8859_1", false);
             df.setDataFormat(new CSVFormat());
             df.open(file1);
             DataRow row = df.next();
@@ -36,7 +37,7 @@ public class DataFileTest extends TestCase
             row.add("test 4");
             df.close();
 
-            df = DataFile.createReader("8859_1");
+            df = DataFileFactory.createReader("8859_1");
             df.open(file2);
             row = df.next();
             assertNull(df.next());
@@ -52,7 +53,7 @@ public class DataFileTest extends TestCase
         File file = new File("headerlist-test.csv");
         file.deleteOnExit();
 
-        df = DataFile.createWriter("8859_1", false);
+        df = DataFileFactory.createWriter("8859_1", false);
         df.setDataFormat(new CSVFormat());
         df.open(file);
 
@@ -67,7 +68,7 @@ public class DataFileTest extends TestCase
         row.add(3);
         df.close();
 
-        df = DataFile.createReader("8859_1");
+        df = DataFileFactory.createReader("8859_1");
         df.containsHeader(true);
         df.open(file);
         List headers = df.getHeaderList();

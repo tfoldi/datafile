@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import com.infomata.data.CSVFormat;
 import com.infomata.data.DataFile;
+import com.infomata.data.DataFileFactory;
 import com.infomata.data.DataRow;
 
 public class DataRowTest extends TestCase
@@ -17,7 +18,7 @@ public class DataRowTest extends TestCase
     {
         file = new File("data-row-test.csv");
         file.deleteOnExit();
-        DataFile df = DataFile.createWriter("8859_1", false);
+        DataFile df = DataFileFactory.createWriter("8859_1", false);
         df.setDataFormat(new CSVFormat());
         try
         {
@@ -44,7 +45,7 @@ public class DataRowTest extends TestCase
     
     public void testSizeOnRead() throws IOException
     {
-        DataFile df = DataFile.createReader("8859_1");
+        DataFile df = DataFileFactory.createReader("8859_1");
         df.open(file);
         DataRow row = df.next();
         assertEquals(3, row.size());
