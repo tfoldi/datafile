@@ -1,6 +1,6 @@
 /*
 * Copyright (c) 2004 Infomata.  All rights reserved.
-* $Id: DataFormatUT.java,v 1.2 2004/05/11 22:27:36 oldman1004 Exp $
+* $Id: DataFormatUT.java,v 1.3 2005/12/19 12:31:28 oldman1004 Exp $
 */
 package com.infomata.data.junit;
 
@@ -15,8 +15,8 @@ import junit.framework.TestCase;
  *
  * Created: Thu Apr 22 12:02:50 2004
  *
- * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.2 $
+ * @author <a href="mailto:oldman1004@gmail.com">Sam Kim</a>
+ * @version $Revision: 1.3 $
  */
 public abstract class DataFormatUT extends TestCase {
 

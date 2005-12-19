@@ -1,5 +1,5 @@
 /*
- * $Id: FixedWidthFormat.java,v 1.1 2004/04/24 04:19:36 oldman1004 Exp $
+ * $Id: FixedWidthFormat.java,v 1.2 2005/12/19 12:31:29 oldman1004 Exp $
  *
  * Copyright(c) 2002 Infomata
  * 
@@ -25,8 +25,8 @@ import java.util.Iterator;
  * Data file format that uses fixed width to define each item
  * per row of data.
  *
- * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:oldman1004@gmail.com">Sam Kim</a>
+ * @version $Revision: 1.2 $
  */
 public class FixedWidthFormat implements DataFormat {
 

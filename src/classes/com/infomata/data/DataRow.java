@@ -1,5 +1,5 @@
 /*
- * $Id: DataRow.java,v 1.3 2005/12/19 11:31:09 oldman1004 Exp $
+ * $Id: DataRow.java,v 1.4 2005/12/19 12:31:29 oldman1004 Exp $
  *
  * Copyright(c) 2002 Infomata
  * 
@@ -34,8 +34,8 @@ import java.util.List;
  * Object representing collection of data items contained within one
  * line of the data file
  *
- * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.3 $
+ * @author <a href="mailto:oldman1004@gmail.com">Sam Kim</a>
+ * @version $Revision: 1.4 $
  */
 public class DataRow {
 

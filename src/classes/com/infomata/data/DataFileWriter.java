@@ -1,5 +1,5 @@
 /*
- * $Id: DataFileWriter.java,v 1.1 2005/12/19 11:31:09 oldman1004 Exp $
+ * $Id: DataFileWriter.java,v 1.2 2005/12/19 12:31:29 oldman1004 Exp $
  * 
  * Copyright(c) 2002 Infomata
  * 
@@ -35,39 +35,12 @@ import java.text.NumberFormat;
 
 /**
  * <p>
- * Main class for generating or reading data files written in widely accepted
- * data format. Currently supported data formats are tab separate ({@link com.infomata.data.TabFormat})
- * and CSV ({@link com.infomata.data.CSVFormat}), but more data formats can
- * easily be added by implementing {@link com.infomata.data.DataFormat}
+ * Writer implementation of DataFile.  As the name suggests, an instance of
+ * DataFileWriter is used for writing data files in specified formats.
  * </p>
- * <p>
  * <b>USAGE:</b>
  * 
  * <pre class="example">
- * // Creating a reader for CSV file using ISO-8859-1
- * 
- * DataFile read = DataFile.createReader(&quot;8859_1&quot;);
- * read.setDataFormat(new CSVFormat());
- * 
- * try
- * {
- * 
- *     read.open(new File(&quot;/data/test.csv&quot;));
- * 
- *     for (DataRow row = read.next(); row != null; row = read.next())
- *     {
- *         String text = row.getString(0);
- *         int number1 = row.getInt(1, 0);
- *         double number2 = row.getDouble(2);
- *         // use the retrieved data ...
- *     }
- * }
- * 
- * finally
- * {
- *     read.close();
- * }
- * 
  * // Creating a writer for data file with European encoding
  * // ISO-8859-2 (European) using tab separated format.
  * // (rewrite existing file)
@@ -94,26 +67,21 @@ import java.text.NumberFormat;
  * }
  * </pre>
  * 
- * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:oldman1004@gmail.com">Sam Kim</a>
+ * @version $Revision: 1.2 $
  */
 public class DataFileWriter extends AbstractDataFile
 {
     private DataRow row = null;
-
-    private NumberFormat nf = null;
 
     private PrintWriter out = null;
 
     private boolean append = false;
 
     /**
-     * Creates a new <code>DataFile</code> instance.
+     * Creates a new <code>DataFile</code> instance for writing data files.
      * 
-     * @param enc
-     *            a <code>String</code> value
-     * @param type
-     *            an <code>int</code> value
+     * @param enc character encoding supported by Java.
      */
     public DataFileWriter(String enc)
     {

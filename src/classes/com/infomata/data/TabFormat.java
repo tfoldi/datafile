@@ -1,5 +1,5 @@
 /*
- * $Id: TabFormat.java,v 1.2 2005/12/15 17:30:54 oldman1004 Exp $
+ * $Id: TabFormat.java,v 1.3 2005/12/19 12:31:29 oldman1004 Exp $
  *
  * Copyright(c) 2002 Infomata
  * 
@@ -25,8 +25,8 @@ import java.util.Iterator;
  * Implementation of DataFormat interface for tab delimited
  * data file.
  *
- * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.2 $
+ * @author <a href="mailto:oldman1004@gmail.com">Sam Kim</a>
+ * @version $Revision: 1.3 $
  */
 public class TabFormat implements DataFormat {
 
@@ -64,12 +64,9 @@ public class TabFormat implements DataFormat {
 
     } // parseLine(String)
 
-
     /**
-     * Describe <code>format</code> method here.
-     *
-     * @param row a <code>DataRow</code> value
-     * @return a <code>String</code> value
+     * Converts DataRow instance into a tab-separated list of data.
+     * @param row DataRow instance containing data.
      */
     public String format(DataRow row) {
     
@@ -87,7 +84,7 @@ public class TabFormat implements DataFormat {
     } // format(DataRow)
     
     /**
-     * contant for tab character in <code>String</code> format.
+     * constant for tab character in <code>String</code> format.
      */
     private static final String TAB = "\t";
 

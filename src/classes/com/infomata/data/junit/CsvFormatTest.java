@@ -1,5 +1,5 @@
 /*
- * $Id: CsvFormatTest.java,v 1.4 2005/12/15 17:30:54 oldman1004 Exp $
+ * $Id: CsvFormatTest.java,v 1.5 2005/12/19 12:31:28 oldman1004 Exp $
  * Copyright(c) 2002 Infomata
  * 
  * This library is free software; you can redistribute it and/or
@@ -24,8 +24,8 @@ import com.infomata.data.*;
 /**
  * Test for CSVFormat
  *
- * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.4 $
+ * @author <a href="mailto:oldman1004@gmail.com">Sam Kim</a>
+ * @version $Revision: 1.5 $
  */
 public class CsvFormatTest extends DataFormatUT {
 

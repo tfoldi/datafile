@@ -1,3 +1,21 @@
+/*
+ * $Id: DataFileTest.java,v 1.3 2005/12/19 12:31:28 oldman1004 Exp $
+ * Copyright(c) 2002 Infomata
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
 package com.infomata.data.junit;
 
 import java.io.File;
@@ -11,8 +29,18 @@ import com.infomata.data.DataFile;
 import com.infomata.data.DataFileFactory;
 import com.infomata.data.DataRow;
 
+/**
+ * 
+ * @author <a href="mailto:oldman1004@gmail.com">Sam Kim</a>
+ * @version $Revision: 1.3 $
+ */
 public class DataFileTest extends TestCase
 {
+	/**
+	 * Tests if all data within DataFile instance is flushed when closed.
+	 * 
+	 * @throws IOException
+	 */
     public void testFlushOnClose() throws IOException
     {
         DataFile df = null;
@@ -47,6 +75,10 @@ public class DataFileTest extends TestCase
         }
     }
 
+    /**
+     * Checks if the header list does not lose the sequence.
+     * @throws IOException
+     */
     public void testHeaderList() throws IOException
     {
         DataFile df = null;

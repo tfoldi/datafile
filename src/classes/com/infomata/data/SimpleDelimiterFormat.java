@@ -1,5 +1,5 @@
 /*
- * $Id: SimpleDelimiterFormat.java,v 1.1 2004/05/11 22:27:29 oldman1004 Exp $
+ * $Id: SimpleDelimiterFormat.java,v 1.2 2005/12/19 12:31:29 oldman1004 Exp $
  *
  * Copyright(c) 2002 Infomata
  * 
@@ -41,8 +41,8 @@ package com.infomata.data;
  * </tr>
  * </table>
  * 
- * @author <a href="mailto:skim@infomata.com">Sam Kim</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:oldman1004@gmail.com">Sam Kim</a>
+ * @version $Revision: 1.2 $
  */
 public class SimpleDelimiterFormat implements DataFormat {
 
