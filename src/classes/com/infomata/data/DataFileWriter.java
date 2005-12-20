@@ -1,5 +1,5 @@
 /*
- * $Id: DataFileWriter.java,v 1.2 2005/12/19 12:31:29 oldman1004 Exp $
+ * $Id: DataFileWriter.java,v 1.3 2005/12/20 11:33:40 oldman1004 Exp $
  * 
  * Copyright(c) 2002 Infomata
  * 
@@ -29,13 +29,12 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.text.NumberFormat;
 
-// TODO: update javadoc
 // TODO: create separate test for DataFileWriter and test encoding
 // TODO: test URL write (jar file?)
 
 /**
  * <p>
- * Writer implementation of DataFile.  As the name suggests, an instance of
+ * Writer implementation of DataFile. As the name suggests, an instance of
  * DataFileWriter is used for writing data files in specified formats.
  * </p>
  * <b>USAGE:</b>
@@ -68,7 +67,7 @@ import java.text.NumberFormat;
  * </pre>
  * 
  * @author <a href="mailto:oldman1004@gmail.com">Sam Kim</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DataFileWriter extends AbstractDataFile
 {
@@ -76,6 +75,10 @@ public class DataFileWriter extends AbstractDataFile
 
     private PrintWriter out = null;
 
+    /**
+     * Flag that indicates whether or not the new data is to appended to
+     * file if it exists.
+     */
     private boolean append = false;
 
     /**
@@ -89,6 +92,13 @@ public class DataFileWriter extends AbstractDataFile
         setCharacterEncoding(enc);
     }
 
+    /**
+     * Interface for specifying if data should be added to the output file if it
+     * exists.
+     * 
+     * @param append <code>true</code> if the data is to be appended to the file. <code>false</code>
+     *               to overwrite existing content.
+     */
     public void setAppendToFile(boolean append)
     {
         this.append = append;
@@ -110,6 +120,10 @@ public class DataFileWriter extends AbstractDataFile
         }
     } // finalize()
 
+    /*
+     * (non-Javadoc)
+     * @see com.infomata.data.DataFile#close()
+     */
     public final void close() throws IOException
     {
         if (containsHeader())
@@ -131,19 +145,14 @@ public class DataFileWriter extends AbstractDataFile
 
     /*
      * (non-Javadoc)
-     * 
-     * @see com.infomata.data.DataFile#open(java.io.File)
-     */
-    /*
-     * (non-Javadoc)
-     * 
      * @see com.infomata.data.DataFile#open(java.io.File)
      */
     public final void open(File file) throws IOException
     {
-        if (!file.exists() && !file.createNewFile()) { throw new IOException(
-                "Can't create file: " + file.getAbsolutePath());
-
+        if (!file.exists() && !file.createNewFile())
+        {
+            throw new IOException("Can't create file: "
+                    + file.getAbsolutePath());
         }
 
         if (out != null)
@@ -154,6 +163,10 @@ public class DataFileWriter extends AbstractDataFile
         open(file.toURL());
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.infomata.data.DataFile#open(java.net.URL)
+     */
     public final void open(URL file) throws IOException
     {
         if (containsCharacterEncoding())
@@ -168,7 +181,7 @@ public class DataFileWriter extends AbstractDataFile
             FileWriter fw = new FileWriter(file.getFile(), append);
             out = new PrintWriter(new BufferedWriter(fw));
         }
-        
+
         if (format == null)
         {
             format = new CSVFormat();
@@ -178,12 +191,6 @@ public class DataFileWriter extends AbstractDataFile
 
     /*
      * (non-Javadoc)
-     * 
-     * @see com.infomata.data.DataFile#next()
-     */
-    /*
-     * (non-Javadoc)
-     * 
      * @see com.infomata.data.DataFile#next()
      */
     public final DataRow next() throws IOException
