@@ -1,0 +1,62 @@
+<html>
+<body>
+<p>
+Extendable data file read/write utility library containing implementations of
+three most commonly encountered formats: CSV, fixed width, and tab separated.  The library
+can easily be extended by implementing {@link com.infomata.data.DataFormat} interface that
+only deals with parsing or formatting individual data items into or from
+a {@link com.infomata.data.DataRow}.  {@link com.infomata.data.DataRow} then takes care of
+parsing values into appropriate data types.
+</p>
+<h3>Sample Usage</h3>
+<h4>Reading a CSV Formatted Data File</h4>
+<p>
+For example, when reading a CSV file in ISO-8859-1 encoding with 1 row containing
+the headers for the data:
+</p>
+<pre>
+File file = new File("/path/to/file.csv");
+DataFile reader = DataFileFactory.createReader("8859_1");
+reader.setDataFormat(new CSVFormat());
+reader.containsHeader(true);
+try
+{
+    reader.open(file);
+    List headers = reader.getHeaderList();
+    // use the header if needed
+    for (DataRow row = reader.next(); row != null; row = reader.next())
+    {
+        String text = row.getString(0);
+        int firstNumber = row.getInt(1, 0);
+        double secondNumber = row.getDouble(2, 0d);
+    }
+}
+finally
+{
+    reader.close();
+}
+</pre>
+<h4>Writing a CSV Formatted Data File</h4>
+<p>
+If we were to write a CSV file that contains German, we would need to
+use ISO-8859-2 encoding:
+</p>
+<pre>
+File file = new File("/path/to/german-file.csv");
+DataFile writer = DataFileFactory.createWriter("8859_2", true); // append to existing file
+try
+{
+    writer.open(file);
+    for (DataRow row = writer.next(); /* has more data to write */; row = writer.next())
+    {
+        row.add("some text");
+        row.add(100);    // integer value
+        row.add(200.1d); // double value
+    }
+}
+finally
+{
+    writer.close();
+}
+</body>
+</html>
