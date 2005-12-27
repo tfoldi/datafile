@@ -2,7 +2,7 @@ Manifest-Version: 1.1
 
 Name: com/infomata/data
 Specification-Title: Data File Read/Write Utility
-Specification-Version: 1.1
+Specification-Version: 2.0
 Specification-Vendor: Infomata
-Implementation-Version: 1.3.2
+Implementation-Version: 2.0
 Implementation-Vendor: Infomata
