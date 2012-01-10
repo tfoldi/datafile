@@ -66,13 +66,20 @@ public class FixedWidthFormat implements DataFormat {
         if (line != null) {
             row = new DataRow();
             for (int i = 0; i < width.length; i++) {
+              if ( beg[ Math.min((i + 1),(width.length-1))] > line.length() ) 
+	      {
+
+                row.add( new String("") );
+
+	      } else {
+
                 if (i == width.length - 1) {
                     row.add(line.substring(beg[i]).trim());
+                } else {
+                      String val = line.substring(beg[i], beg[i + 1]);
+                      row.add(val.trim());
                 }
-                else {
-                    String val = line.substring(beg[i], beg[i + 1]);
-                    row.add(val.trim());
-                }
+              }
             }
         }
 
