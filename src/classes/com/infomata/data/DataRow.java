@@ -230,7 +230,8 @@ public class DataRow {
 
         double d = Double.NaN;
         String val = getString(location).trim();
-
+        val = prepareNumberValue(val);
+        
         try {
             d = nf.parse(val).doubleValue();
         }
@@ -309,6 +310,7 @@ public class DataRow {
     public double getDouble(int location, DecimalFormat format, 
                             double defaultVal) {
         String val = getString(location).trim();
+        val = prepareNumberValue(val);
         try {
             defaultVal = format.parse(val).doubleValue();
         }
@@ -357,6 +359,8 @@ public class DataRow {
     public int getInt(int location) throws NumberFormatException {
         int i = 0;
         String val = getString(location).trim();
+        val = prepareNumberValue(val);
+
         try {
             i = nf.parse(val).intValue();
         }
@@ -371,7 +375,21 @@ public class DataRow {
         return i;
     }
 
-    /**
+    private String prepareNumberValue(String val) {
+    	// fix problem with last char is minus sign
+      	if (val.endsWith("-")) {
+    		val = "-" + val.substring(0, val.length() - 1);
+    	}
+
+      	// fix problem with * = 10
+      	if (val.startsWith("*")) {
+      		val = "10" + val.substring(1);
+      	}
+      	
+    	return val;
+	}
+
+	/**
      * Retrieves the int value of the datum contained
      * under specified column <code>label</code>.
      *
@@ -404,6 +422,7 @@ public class DataRow {
      */
     public int getInt(int location, int defaultVal) {
         String val = getString(location).trim();
+        val = prepareNumberValue(val);
         try {
             defaultVal = nf.parse(val).intValue();
         }
@@ -619,4 +638,4 @@ public class DataRow {
 		items.clear();
 	}
 
-}
+} 
